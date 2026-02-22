@@ -1,0 +1,2 @@
+import { NextRequest, NextResponse } from 'next/server';import { saveLocalFile } from '@/lib/storage';
+export async function POST(req:NextRequest){const form=await req.formData();const file=form.get('file') as File; if(!file) return NextResponse.json({error:'missing file'},{status:400}); const arr=Buffer.from(await file.arrayBuffer());const url=await saveLocalFile(`${Date.now()}-${file.name}`,arr);return NextResponse.json({url});}

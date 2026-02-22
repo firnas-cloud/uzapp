@@ -1,0 +1,3 @@
+import { prisma } from '@/lib/db';import { fetchNews } from '@/lib/news/provider';import { StickyControls } from '@/components/shared/sticky-controls';
+export default async function Page(){const config=await prisma.newsSourceConfig.findFirst();const items=await fetchNews(config?.provider||'mock',(config?.categoriesJson as string[])||['defi']);
+return <div className='space-y-4'><h1 className='text-3xl font-bold'>News</h1><StickyControls/>{items.map(i=><article key={i.id} className='glass p-4'><h3 className='font-semibold'>{i.title}</h3><p className='text-zinc-300'>{i.summary}</p></article>)}</div>}

@@ -1,0 +1,2 @@
+import Link from 'next/link';import { prisma } from '@/lib/db';import { StickyControls } from '@/components/shared/sticky-controls';
+export default async function Page(){const items=await prisma.researchTopic.findMany({where:{published:true}});return <div><h1 className='text-3xl font-bold mb-4'>Research</h1><StickyControls/><div className='grid gap-3'>{items.map(i=><Link key={i.id} href={`/research/${i.slug}`} className='glass p-4 text-xl'>{i.title}</Link>)}</div></div>}

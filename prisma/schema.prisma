@@ -1,0 +1,122 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+
+enum Role { ADMIN USER }
+enum CommentStatus { PENDING APPROVED }
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  passwordHash String?
+  role Role @default(USER)
+  createdAt DateTime @default(now())
+  comments Comment[]
+  reactions Reaction[]
+}
+
+model LearnVideo {
+  id String @id @default(cuid())
+  title String
+  youtubeUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean @default(true)
+}
+model LearnArticle {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  contentRich String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean @default(true)
+}
+model Comment {
+  id String @id @default(cuid())
+  entityType String
+  entityId String
+  userId String?
+  content String
+  status CommentStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  user User? @relation(fields:[userId], references:[id])
+}
+model Reaction {
+  id String @id @default(cuid())
+  entityType String
+  entityId String
+  userId String?
+  sessionId String?
+  type String
+  createdAt DateTime @default(now())
+  user User? @relation(fields:[userId], references:[id])
+  @@unique([entityType, entityId, userId, type])
+  @@unique([entityType, entityId, sessionId, type])
+}
+model ResearchTopic {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  logoImageUrl String
+  projectName String
+  articleRich String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean @default(true)
+  ratings ResearchRating[]
+}
+model ResearchRatingCriterion {
+  id String @id @default(cuid())
+  name String
+  order Int
+  ratings ResearchRating[]
+}
+model ResearchRating {
+  id String @id @default(cuid())
+  researchTopicId String
+  criterionId String
+  score Int
+  updatedAt DateTime @updatedAt
+  topic ResearchTopic @relation(fields:[researchTopicId], references:[id], onDelete: Cascade)
+  criterion ResearchRatingCriterion @relation(fields:[criterionId], references:[id], onDelete: Cascade)
+  @@unique([researchTopicId, criterionId])
+}
+model Signal {
+  id String @id @default(cuid())
+  title String
+  tradingViewUrl String
+  previewImageUrl String?
+  analysisText String
+  priceLevelsJson Json
+  pinned Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean @default(true)
+}
+model ToolItem {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  clickbaitSubtitle String
+  externalLinksJson Json
+  imageUrl String?
+  articleRich String
+  apiIntegrationType String
+  apiConfigJson Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean @default(true)
+}
+model NewsSourceConfig {
+  id String @id @default(cuid())
+  provider String
+  apiKeyEncrypted String?
+  categoriesJson Json
+  enabled Boolean @default(true)
+}
+model MediaAsset {
+  id String @id @default(cuid())
+  url String
+  type String
+  createdAt DateTime @default(now())
+}

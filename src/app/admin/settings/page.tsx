@@ -1,0 +1,1 @@
+export default async function Page(){ return <div className='glass p-5'><h1 className='text-2xl font-bold text-blue-300'>Admin Settings</h1><p>Configure API keys with environment variables.</p></div>; }

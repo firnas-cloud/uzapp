@@ -1,0 +1,2 @@
+import { prisma } from '@/lib/db';import { notFound } from 'next/navigation';
+export default async function Page({params}:{params:{id:string}}){const t=await prisma.researchTopic.findUnique({where:{id:params.id},include:{ratings:{include:{criterion:true}}}});if(!t)return notFound();return <div className='glass p-5'><h1 className='text-xl font-bold'>{t.title}</h1>{t.ratings.map(r=><p key={r.id}>{r.criterion.name}: {r.score}</p>)}</div>}

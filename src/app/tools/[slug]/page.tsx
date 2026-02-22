@@ -1,0 +1,4 @@
+import Image from 'next/image';import { prisma } from '@/lib/db';import { notFound } from 'next/navigation';
+export default async function Page({params}:{params:{slug:string}}){const tool=await prisma.toolItem.findUnique({where:{slug:params.slug}});if(!tool) return notFound();
+const links = tool.externalLinksJson as string[];
+return <div className='space-y-4'><div className='glass p-6'><h1 className='text-3xl font-bold'>{tool.title}</h1><ul className='mt-3 list-disc pl-5'>{links.map((l,i)=><li key={i}><a href={l} className='text-blue-300 underline'>{l}</a></li>)}</ul>{tool.imageUrl && <Image src={tool.imageUrl} alt='' width={600} height={340} className='mt-4 rounded-2xl'/>}<div className='prose prose-invert mt-4' dangerouslySetInnerHTML={{__html:tool.articleRich}}/><div className='mt-4 rounded-2xl border border-white/10 bg-black/30 p-3 text-sm'>API Adapter: {tool.apiIntegrationType}</div></div></div>}

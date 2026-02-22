@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html { scroll-behavior: smooth; }
+body { @apply bg-bg text-zinc-100 min-h-screen; }
+* { scrollbar-width: thin; scrollbar-color: #1f2937 #0b0b0f; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 999px; }
+
+.glass { background: rgba(255,255,255,.06); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; box-shadow: 0 0 24px rgba(37,99,235,.08); }
+.interactive { transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s, background .2s; }
+.interactive:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(249,115,22,.2); }
+
+.eth-watermark::before {
+  content: 'Ξ'; position: fixed; inset: 0; display: grid; place-items: center;
+  font-size: min(68vw, 70vh); opacity: .15; filter: blur(3px); pointer-events: none; z-index: -1;
+}

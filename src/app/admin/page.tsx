@@ -1,0 +1,1 @@
+export default function AdminDashboard(){ return <div className="glass p-5"><h1 className="text-2xl font-bold text-blue-300">Admin Dashboard</h1><p>Metrics: content count, pending comments, reactions/day.</p></div>; }

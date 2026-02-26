@@ -1,0 +1,1 @@
+export default function Page(){ return <div className="glass p-5"><h1 className="text-xl font-semibold capitalize">Admin signals</h1><p>CRUD and controls for signals with inline saving, toasts, and moderation.</p></div> }

@@ -1,0 +1,1 @@
+export default function Page(){ return <div className="glass p-5"><h1 className="text-xl font-semibold capitalize">Admin settings</h1><p>CRUD and controls for settings with inline saving, toasts, and moderation.</p></div> }
